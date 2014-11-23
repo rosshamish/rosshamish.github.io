@@ -1,6 +1,6 @@
 name: Ross Anderson
-description: Canadian software developer
-meta_description: "Ross Anderson - Canadian software developer"
+description: the blog of a canadian software developer
+meta_description: "Ross Anderson, software developer"
 
 markdown: redcarpet
 highlighter: pygments
