@@ -1,0 +1,11 @@
+do 'retrospectives', where we go back to old code and view it from different levels
+
+- at the function level, and propose/implement better solutions
+- at the subsystem level, and propose better organization, better open-close, better abstraction
+- at the system level, and propose better architecture, separation of responsibilities
+
+- and include style as well
+  - readability
+  - naming
+  - braces, whitespace, newlines
+  

@@ -1,12 +1,16 @@
 ---
 layout: post
-title:  "Concurrent Schedule Generation"
-categories: python threading multiprocessing winston classtime
+title:  "Finding optimal university schedules"
+tags: python threading multiprocessing winston classtime
+
+published: false
 ---
 
-> Pulled from an issue thread on my current project, Winston.
 
-So, the multiprocessing approach seems to affect performance based on two factors: the working set size and the number of worker processes used. I did some good 'ol research to look for an optimal combination of the two.
+OLDPOST
+---
+
+The multiprocessing approach seemed to affect performance based on two factors: the working set size and the number of worker processes used. I did some good 'ol research to look for an optimal combination of the two.
 
 > **working set size:** the number of "best" schedules which are kept around at any one time. A larger working set means less chance of mistakenly discarding a potentially great schedule.
 

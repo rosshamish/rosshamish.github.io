@@ -1,9 +1,12 @@
+# Site description
 name: Ross Anderson
 description: the blog of a canadian software developer
 meta_description: "Ross Anderson, software developer"
 
-markdown: redcarpet
+# Markdown rendering
+markdown: kramdown
 highlighter: pygments
+
 logo: false
 paginate: 15
 baseurl: /
