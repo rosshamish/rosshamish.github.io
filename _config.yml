@@ -4,6 +4,10 @@ description: canadian software developer
 meta_description: "Ross Anderson, software developer"
 cover: "images/sombrilla-screenshot.png"
 
+# Collections
+collections:
+  projects:
+    foo: bar
 # Markdown rendering
 markdown: kramdown
 highlighter: pygments
