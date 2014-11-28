@@ -1,7 +1,8 @@
 # Site description
 name: Ross Anderson
-description: the blog of a canadian software developer
+description: canadian software developer
 meta_description: "Ross Anderson, software developer"
+cover: "images/sombrilla-screenshot.png"
 
 # Markdown rendering
 markdown: kramdown
@@ -9,6 +10,7 @@ highlighter: pygments
 
 logo: false
 paginate: 15
+paginate_path: blog/page:num
 baseurl: /
 domain_name: 'http://rossanderson.ca'
 
