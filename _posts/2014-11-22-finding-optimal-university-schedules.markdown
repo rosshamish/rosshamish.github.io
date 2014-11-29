@@ -196,13 +196,44 @@ In our case, this is a good fit since
 [Wikipedia-big-oh-notation]: http://en.wikipedia.org/wiki/Time_complexity#Table_of_common_time_complexities
 [python-heapq]: https://docs.python.org/2/library/heapq.html
 
-A base schedule with no sections will be used as the initial candidate. Later, we'll be able to make some times "unavailable" by pre-filling this base schedule with some blocked-off times.
+An empty schedule is used as the initial candidate.
 
-For each section, iterate through the candidate list with `for candidate in candidates[:]`. The `[:]` creates a **copy** of the list - this allows the list to be operated on while it is being iterated through. We'll use this property to push new candidates onto the heap while we iterate through it.
+{% highlight python %}
+candidates = [Schedule()]
+{% endhighlight %}
 
-[Deep copy](https://docs.python.org/2/library/copy.html) each candidate, add the current section, and push it onto the heap - unless the section conflict with the candidate, in which case do nothing.
+For each section, iterate through the candidate list, using `[:]` to **copy** the list - this allows us to push new candidates onto the heap while we iterate through it.
 
-Once all sections have been scheduled, use `if len(candidates[0].sections) == len(sections)` to exclude candidates with incomplete schedules. Then, sort the list in best-first order with `reverse=True`, and use a [list slice](http://stackoverflow.com/questions/509211/explain-pythons-slice-notation) to return only the best schedules.
+{% highlight python %}
+for section in sections:
+    for candidate in candidates[:]:
+{% endhighlight %}
+
+If the section conflicts with the candidate, do nothing. If the section does not conflict, [deep copy](https://docs.python.org/2/library/copy.html) the candidate, add the section, and push the new candidate onto the heap. If the heap is at its max size, replace the worst schedule.
+
+{% highlight python %}
+if candidate.conflicts(section):
+    continue
+new_candidate = candidate.add_section_and_deepcopy(section)
+if len(candidates) >= HEAP_SIZE:
+    heapq.heapreplace(candidates, new_candidate)
+else:
+    heapq.heappush(candidates, new_candidate)
+{% endhighlight %}
+
+Once all sections have been scheduled, exclude candidates with incomplete schedules.
+{% highlight python %}
+candidates = [candidate for candidate in candidates
+              if len(candidates[0].sections) == len(sections)]
+{% endhighlight %}
+
+Then, return only the best schedules by sorting the list in best-first order with `reverse=True` and then [slicing the list](http://stackoverflow.com/questions/509211/explain-pythons-slice-notation).
+
+{% highlight python %}
+return sorted(candidates, reverse=True)[:RETURN_SIZE]
+{% endhighlight %}
+
+Here's the full code
 
 {% highlight python linenos %}
 
