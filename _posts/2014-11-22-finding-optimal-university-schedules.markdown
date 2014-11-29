@@ -6,19 +6,28 @@ tags: python winston classtime
 published: true
 ---
 
-##### The context
+#### The context
 
 [Andrew Hoskins]({{ site.data.github.andrewhoskins }}) and I are working on {{ site.data.names.classtime }}, a university scheduling webapp. You tell {{ site.data.names.classtime }} what courses you're taking and what you want in a schedule, and he quickly finds you a schedule that fits your life. 
 
-This has been done before: see [Matthew Hoener's UVic schedulebuilder](http://schedulecourses.com/), [Alex Teske's UOttawa schedule-builder](https://github.com/alex-teske/schedule-builder), [Ben Grawi, Ben Russell, and John Resig's Rocherster Institute of Technology ScheduleMaker](http://schedule.csh.rit.edu/), and [Mason Strong]({{ site.data.github.masonstrong }}) and [Peter Crinklaw](http://blackacrebrewing.com/hey.swf)'s UAlberta schedule-builder. 
-
-Its purpose is to generate schedules. But we'll know we've done it right if it also lets someone see their friends more, rest after morning practice, go on longer ski trips, or do anything that makes them happier during the semester.
-
-##### This task
+#### The task
 
 Starting from scratch, find an optimal set of schedules given a list of courses.
 
 Each course may have zero or more components (lectures, labs, and seminars). Each component may have zero or more sections (eg Tuesday & Thursday 9:00am-9:50am).
+
+--
+
+#### The bigger picture
+
+This has been done before: see [Matthew Hoener's UVic schedulebuilder](http://schedulecourses.com/), [Alex Teske's UOttawa schedule-builder](https://github.com/alex-teske/schedule-builder), [Ben Grawi, Ben Russell, and John Resig's Rochester Institute of Technology ScheduleMaker](http://schedule.csh.rit.edu/), and [Mason Strong]({{ site.data.github.masonstrong }}) and [Peter Crinklaw](http://blackacrebrewing.com/hey.swf)'s UAlberta schedule-builder.
+
+Its purpose is to generate schedules. But we'll know we've done it right if it also lets someone
+
+- rest and eat after morning practice
+- see their friends more
+- go on longer ski trips
+- do anything that makes them happier during the semester.
 
 ##### The strategy
 
@@ -154,7 +163,7 @@ These tests are run in the command line with [`$ nosetests`][nosetests-read-the-
 
 Lastly for the groundwork, schedules will be naively sorted by comparing how close each is to being completed. This will be computed as the number of sections already added to a schedule.
 
-The work of sorting is done by defining a [comparison method]((http://jcalderone.livejournal.com/32837.html)) for `Schedule` objects. Two constants are also declared in the interest of future readability when more intelligent comparisons are implemented.
+The work of sorting is done by defining a [comparison method](http://jcalderone.livejournal.com/32837.html) for `Schedule` objects. Two constants are also declared in the interest of future readability when more intelligent comparisons are implemented.
 
 {% highlight python %}
 SELF_IS_WORSE = True
@@ -174,12 +183,12 @@ Now, the main event: generating schedules.
 
 Python's implementation of a [heap][Wikipedia-heap], called [heapq][python-heapq], is used to keep track of candidate schedules during the search.
 
-A [heap][Wikipedia-heap] is a sorted [recursive data structure][Wikipedia-recursive-data-structure] with [log(n) insertion][Wikipedia-big-oh-notation]. The head can be removed in [constant time][Wikipedia-big-oh-notation], so its size can be restricted easily by always removing the head after each insertion. And, since python's heapq is a [min-heap][Wikipedia-img-min-heap], the head is the minimum, and thus the "worst" node will be discarded after each insertion. This makes it ideal for storing "the best N" of a collection. However, the maximum nodes are hard to find, since they are in the leaves - the whole tree must be traversed.
+A [heap][Wikipedia-heap] is a sorted [recursive data structure][Wikipedia-recursive-data-structure] with [log(n) insertion][Wikipedia-big-oh-notation]. The head can be removed in [constant time][Wikipedia-big-oh-notation], so its size can be restricted by removing the head after each insertion. And, since python's heapq is a [min-heap][Wikipedia-img-min-heap], the head is the minimum, and thus the "worst" node will be discarded after each insertion. This makes it ideal for storing "the best N" of a collection. The downside is that "best" nodes are hard to find, since maximum nodes are in the leaves - the whole tree must be traversed.
 
 In our case, this is a good fit since
 
-1) If we assume that bad half-done schedules are likely to become bad complete schedules, restricting the working set size avoids wasting time computing low-quality schedules
-2) The best schedules only need to be found once, at the very end
+1. If we assume that bad half-done schedules are likely to become bad complete schedules, we can restrict the working set size to avoid wasting time computing low-quality schedules
+2. The best schedules only need to be found once, at the very end
 
 [Wikipedia-recursive-data-structure]: http://en.wikipedia.org/wiki/Recursive_data_type
 [Wikipedia-heap]: http://en.wikipedia.org/wiki/Heap_%28data_structure%29
@@ -187,4 +196,36 @@ In our case, this is a good fit since
 [Wikipedia-big-oh-notation]: http://en.wikipedia.org/wiki/Time_complexity#Table_of_common_time_complexities
 [python-heapq]: https://docs.python.org/2/library/heapq.html
 
+A base schedule with no sections will be used as the initial candidate. Later, we'll be able to make some times "unavailable" by pre-filling this base schedule with some blocked-off times.
 
+For each section, iterate through the candidate list with `for candidate in candidates[:]`. The `[:]` creates a **copy** of the list - this allows the list to be operated on while it is being iterated through. We'll use this property to push new candidates onto the heap while we iterate through it.
+
+[Deep copy](https://docs.python.org/2/library/copy.html) each candidate, add the current section, and push it onto the heap - unless the section conflict with the candidate, in which case do nothing.
+
+Once all sections have been scheduled, use `min(len(candidates, RETURN_SIZE))` to return as many candidates as possible. Also, use `if len(candidates[0].sections) == len(sections)` to filter out candidates which didnt manage to schedule all the sections. This is possible because a python heap's head is always at index 0.
+
+{% highlight python linenos %}
+
+def generate_schedules(sections):
+    HEAP_SIZE = 50
+    RETURN_SIZE = 10
+
+    candidates = [Schedule()]
+    for section in sections:
+        for candidate in candidates[:]:
+            if candidate.conflicts(section):
+                continue
+            new_candidate = candidate.add_section_and_deepcopy(section)
+            if len(candidates) >= HEAP_SIZE:
+                heapq.heapreplace(candidates, new_candidate)
+            else:
+                heapq.heappush(candidates, new_candidate)
+
+    return [heapq.heappop(candidates)
+            for _ in range(min(len(candidates), RETURN_SIZE))
+            if len(candidates[0].sections) == len(sections)]
+{% endhighlight %}
+
+This is a good start.
+
+Adios, until next time.

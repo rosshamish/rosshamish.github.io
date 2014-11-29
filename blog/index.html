@@ -15,8 +15,8 @@ title: Blog
         <header class="post-header">
             <h2 class="post-title"><a href="{{ post.url }}">{{ post.title }}</a></h2>
         </header>
-        <section class="post-content">
-            {{ post.content }}
+        <section class="post-excerpt">
+            {{ post.excerpt }}
         </section>
         <footer class="post-meta">
             {% if site.author %}

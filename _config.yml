@@ -9,6 +9,9 @@ collections:
   projects:
     output: true
 
+# Excerpts
+excerpt_separator: "--"
+
 # Markdown rendering
 markdown: kramdown
 highlighter: pygments
