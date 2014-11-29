@@ -202,7 +202,7 @@ For each section, iterate through the candidate list with `for candidate in cand
 
 [Deep copy](https://docs.python.org/2/library/copy.html) each candidate, add the current section, and push it onto the heap - unless the section conflict with the candidate, in which case do nothing.
 
-Once all sections have been scheduled, use `min(len(candidates, RETURN_SIZE))` to return as many candidates as possible. Also, use `if len(candidates[0].sections) == len(sections)` to filter out candidates which didnt manage to schedule all the sections. This is possible because a python heap's head is always at index 0.
+Once all sections have been scheduled, use `if len(candidates[0].sections) == len(sections)` to exclude candidates with incomplete schedules. Then, sort the list in best-first order with `reverse=True`, and use a [list slice](http://stackoverflow.com/questions/509211/explain-pythons-slice-notation) to return only the best schedules.
 
 {% highlight python linenos %}
 
@@ -221,9 +221,12 @@ def generate_schedules(sections):
             else:
                 heapq.heappush(candidates, new_candidate)
 
-    return [heapq.heappop(candidates)
-            for _ in range(min(len(candidates), RETURN_SIZE))
-            if len(candidates[0].sections) == len(sections)]
+    if not candidates:
+        return []
+    candidates = [candidate for candidate in candidates
+                  if len(candidates[0].sections) == len(sections)]
+    return sorted(candidates, reverse=True)[:RETURN_SIZE]
+
 {% endhighlight %}
 
 Adios, until next time.
