@@ -31,6 +31,29 @@ blog: 'blog'
 
 <main id="content" class="content" role="main">
 
+    <article class="post">
+        <header class="post-header">
+            <h2 class="post-title"><a href="/projects/0-about.html">About</a></h2>
+        </header>
+        <section class="post-content">
+            <p>
+                My name is <strong>Ross Anderson</strong>. I’m a Canadian software developer studying 
+                Computer Engineering at the <a href="http://ualberta.ca">University of Alberta</a> in 
+                <a href="http://photos.edmonton.ca/City-Scenes/Edmonton-City-Scapes/">
+                    beautiful Edmonton, Alberta</a>.
+            </p>
+            <p>
+                <a href="{{ site.data.github.rossanderson }}">
+                    <img style="display: inline-block" src="assets/images/icon-github.png" alt="Ross Anderson's Github profile">
+                </a>
+                <a href="mailto:ross.anderson@ualberta.ca">
+                    <img style="display: inline-block" src="assets/images/icon-email.png" alt="Ross Anderson's email">
+                </a>
+            </p>
+
+        </section>
+    </article>
+
     {% for project in site.projects %}
 
     <article class="post">
