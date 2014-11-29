@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Finding optimal university schedules"
+title:  "Using concurrency in university schedule generation"
 tags: python threading multiprocessing winston classtime
 
 published: false
