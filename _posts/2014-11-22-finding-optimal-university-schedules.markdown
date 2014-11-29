@@ -8,7 +8,7 @@ published: true
 
 #### The context
 
-[Andrew Hoskins]({{ site.data.github.andrewhoskins }}) and I are working on {{ site.data.names.classtime }}, a university scheduling webapp. You tell {{ site.data.names.classtime }} what courses you're taking and what you want in a schedule, and he quickly finds you a schedule that fits your life. 
+[Andrew Hoskins]({{ site.data.github.andrewhoskins }}) and I are working on {{ site.data.names.classtime }}, a university scheduling webapp. You tell {{ site.data.names.classtime }} what courses you're taking and what you want in a schedule. He then quickly finds you a schedule that fits your life. 
 
 #### The task
 
