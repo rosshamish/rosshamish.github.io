@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Finding optimal university schedules"
-tags: python winston classtime
+tags: university schedules python winston classtime heaps
 
 published: true
 ---
@@ -16,7 +16,7 @@ Starting from scratch, find an optimal set of schedules given a list of courses.
 
 Each course may have zero or more components (lectures, labs, and seminars). Each component may have zero or more sections (eg Tuesday & Thursday 9:00am-9:50am).
 
---
+---
 
 #### The bigger picture
 

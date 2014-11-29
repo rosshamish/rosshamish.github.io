@@ -10,7 +10,7 @@ collections:
     output: true
 
 # Excerpts
-excerpt_separator: "--"
+excerpt_separator: "---"
 
 # Markdown rendering
 markdown: kramdown
