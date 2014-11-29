@@ -226,6 +226,4 @@ def generate_schedules(sections):
             if len(candidates[0].sections) == len(sections)]
 {% endhighlight %}
 
-This is a good start.
-
 Adios, until next time.
