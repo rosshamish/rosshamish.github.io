@@ -187,8 +187,8 @@ A [heap][Wikipedia-heap] is a sorted [recursive data structure][Wikipedia-recurs
 
 In our case, this is a good fit since
 
-1. If we assume that bad half-done schedules are likely to become bad complete schedules, we can restrict the working set size to avoid wasting time computing low-quality schedules
-2. The best schedules only need to be found once, at the very end
+1. If we assume that bad half-done schedules are likely to become bad complete schedules, we can avoid computing bad complete schedules by throwing out the bad half-done schedules. This can be done by restricting the heap size.
+2. The best schedules only need to be found once, at the very end. This means we only pay the price of finding maximum nodes once, which is acceptable.
 
 [Wikipedia-recursive-data-structure]: http://en.wikipedia.org/wiki/Recursive_data_type
 [Wikipedia-heap]: http://en.wikipedia.org/wiki/Heap_%28data_structure%29
@@ -202,14 +202,16 @@ An empty schedule is used as the initial candidate.
 candidates = [Schedule()]
 {% endhighlight %}
 
-For each section, iterate through the candidate list, using `[:]` to **copy** the list - this allows us to push new candidates onto the heap while we iterate through it.
+For each section, iterate through a **copy** of the candidate list using `[:]`. This allows us to push new candidates onto the heap while we iterate through it.
 
 {% highlight python %}
 for section in sections:
     for candidate in candidates[:]:
 {% endhighlight %}
 
-If the section conflicts with the candidate, do nothing. If the section does not conflict, [deep copy](https://docs.python.org/2/library/copy.html) the candidate, add the section, and push the new candidate onto the heap. If the heap is at its max size, replace the worst schedule.
+If the section conflicts with the candidate, do nothing. If the section does not conflict, [deep copy](https://docs.python.org/2/library/copy.html) the candidate, add the section, and push the new candidate onto the heap.
+
+If the heap is at its max size, discard the worst schedule with `heapq.heapreplace()`.
 
 {% highlight python %}
 if candidate.conflicts(section):
@@ -222,12 +224,13 @@ else:
 {% endhighlight %}
 
 Once all sections have been scheduled, exclude candidates with incomplete schedules.
+
 {% highlight python %}
 candidates = [candidate for candidate in candidates
               if len(candidates[0].sections) == len(sections)]
 {% endhighlight %}
 
-Then, return only the best schedules by sorting the list in best-first order with `reverse=True` and then [slicing the list](http://stackoverflow.com/questions/509211/explain-pythons-slice-notation).
+Return only the best schedules by sorting the list in best-first order with `reverse=True` and then [slicing the list](http://stackoverflow.com/questions/509211/explain-pythons-slice-notation).
 
 {% highlight python %}
 return sorted(candidates, reverse=True)[:RETURN_SIZE]
