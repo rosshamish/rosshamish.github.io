@@ -1,6 +1,5 @@
 ---
 layout: page
-title: Recent Work
 ---
 
 **Microsoft Enterprise & Security - Quality**  

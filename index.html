@@ -6,65 +6,36 @@ cover: black
 blog: 'blog'
 ---
 
-<header class="main-header {% if page.cover %}" style="background-image: url('{{ page.cover }}') {%else%}no-cover{% endif %}">
-    <nav class="main-nav overlay clearfix">
-            {% if page.logo %}
-                <a class="blog-logo" href="{{ site.baseurl }}">
-                    <img src="{{ page.logo }}" alt="Blog Logo" />
-                </a>
-            {% endif %}
-    </nav>
-    <div class="vertical">
-        <div class="main-header-content inner">
-            <h1 class="page-title">{{ site.name }}</h1>
-            <h2 class="page-description">
-                {% if site.description %} {{ site.description }} {% endif %} 
-            </h2>
-            <h2 class="page-description">
-                {% if page.blog %} <a href='{{ site.baseurl }}{{ page.blog }}'> Recent Posts </a> {% endif %}
-            </h2>
-        </div>
-    </div>
-    <a class="scroll-down icon-arrow-left" href="#content" data-offset="-45"><span class="hidden">Scroll Down</span></a>
-</header>
-
-
 <main id="content" class="content" role="main">
 
     <article class="post">
         <header class="post-header">
-            <h2 class="post-title"><a href="/projects/0-about.html">About</a></h2>
+            <h2 class="post-title">Ross Anderson</h2>
         </header>
         <section class="post-content">
+            Software engineer from Edmonton, Canada.
+            <br/><br/>
+            Currently interested in
+            <ul>
+            <li>scalable web infrastructure</li>
+            <li>applications of machine learning</li>
+            <li>human-centred computing: interface design, usability</li>
+            </ul>
+            Available for internship this upcoming Fall 2016. 
+            <br/>
+            Available for full-time starting Fall 2017.
             <p>
-                My name is <strong>Ross Anderson</strong>. I’m a Canadian software developer studying 
-                Computer Engineering at the <a href="http://ualberta.ca">University of Alberta</a> in 
-                <a href="http://photos.edmonton.ca/City-Scenes/Edmonton-City-Scapes/">
-                    beautiful Edmonton, Alberta</a>.
-            </p>
-            <p>
-                <a href="{{ site.data.github.rossanderson }}">
-                    <img style="display: inline-block" src="assets/images/icon-github.png" alt="Ross Anderson's Github profile">
-                </a>
-                <a href="mailto:ross.anderson@ualberta.ca">
-                    <img style="display: inline-block" src="assets/images/icon-email.png" alt="Ross Anderson's email">
-                </a>
+                <br/>
+                Portfolio: <a href="{{ site.data.github.rossanderson }}">github.com/rosshamish</a>
+                <br />
+                LinkedIn: <a href="{{ site.data.github.linkedin_url }}">ca.linkedin.com/in/rosshamish</a>
+                <br/>
+                Resume: <a href="https://www.dropbox.com/s/k73nmcqsiayjgq1/Ross_Anderson__Resume_latest.pdf?dl=0">Latest</a> (PDF)
+                <br />
+                Email: ross.anderson@ualberta.ca
             </p>
 
         </section>
     </article>
-
-    {% for project in site.projects %}
-
-    <article class="post">
-        <header class="post-header">
-            <h2 class="post-title"><a href="{{ project.url }}">{{ project.title }}</a></h2>
-        </header>
-        <section class="post-content">
-            {{ project.content }}
-        </section>
-    </article>
-
-    {% endfor %}
 
 </main>
