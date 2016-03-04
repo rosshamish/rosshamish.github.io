@@ -1,5 +1,3 @@
 _site
-.DS_Store
-*.swp
 .sass-cache
-*.sublime*
+.jekyll-metadata

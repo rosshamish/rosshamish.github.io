@@ -1,41 +1,33 @@
 ---
 layout: default
-title: Home
-cover: black
-
-blog: 'blog'
 ---
 
-<main id="content" class="content" role="main">
+<div class="home">
 
-    <article class="post">
-        <header class="post-header">
-            <h2 class="post-title">Ross Anderson</h2>
-        </header>
-        <section class="post-content">
-            Software engineer from Edmonton, Canada.
-            <br/><br/>
-            Currently interested in
-            <ul>
-            <li>scalable web infrastructure</li>
-            <li>applications of machine learning</li>
-            <li>human-centred computing: interface design, usability</li>
-            </ul>
-            Available for internship this upcoming Fall 2016. 
-            <br/>
-            Available for full-time starting Fall 2017.
-            <p>
-                <br/>
-                Portfolio: <a href="{{ site.data.github.rossanderson }}">github.com/rosshamish</a>
-                <br />
-                LinkedIn: <a href="{{ site.data.github.linkedin_url }}">ca.linkedin.com/in/rosshamish</a>
-                <br/>
-                Resume: <a href="https://www.dropbox.com/s/k73nmcqsiayjgq1/Ross_Anderson__Resume_latest.pdf?dl=0">Latest</a> (PDF)
-                <br />
-                Email: ross.anderson@ualberta.ca
-            </p>
+  <ul class="post-list">
+    {% for project in site.posts %}
+      <li>
+          <a class="post-link" href="{{ project.url | prepend: site.baseurl }}">{{ project.title }}</a>
+          
+          <p>
+          {{ project.oneline }}
+          <br />
+          {% if project.github %}
+          	<a href="https://github.com/{{ project.github }}">github.com/{{ project.github }}</a>
+          {% endif %}
+          {% if project.link %}
+          	<a href="{{ project.link }}">{{ project.link }}</a>
+          {% endif %}
+          </p>
 
-        </section>
-    </article>
+          {% if project.demo %}
+          	<img src="{{ project.demo }}" />
+          {% endif %}
+          {% if project.demo-text %}
+          	<p>{{ project.demo-text }}</p>
+          {% endif %}
+      </li>
+    {% endfor %}
+  </ul>
 
-</main>
+</div>

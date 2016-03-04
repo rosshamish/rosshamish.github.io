@@ -1,27 +1,18 @@
-# Site description
-name: Ross Anderson
-description: canadian software engineer
-meta_description: "Ross Anderson, software engineer"
-cover: "images/sombrilla-screenshot.png"
+# Welcome to Jekyll!
+#
+# This config file is meant for settings that affect your whole blog, values
+# which you are expected to set up once and rarely need to edit after that.
+# For technical reasons, this file is *NOT* reloaded automatically when you use
+# 'jekyll serve'. If you change this file, please restart the server process.
 
-# Collections
-collections:
-  projects:
-    output: true
+# Site settings
+title: portfolio of rosshamish / ross anderson
+email: ross.anderson@ualberta.ca
+description: > # this means to ignore newlines until "baseurl:"
 
-# Excerpts
-excerpt_separator: "---"
+baseurl: "" # the subpath of your site, e.g. /blog
+url: "http://rosshamish.github.io" # the base hostname & protocol for your site
+github_username:  rosshamish
 
-# Markdown rendering
+# Build settings
 markdown: kramdown
-highlighter: pygments
-
-logo: false
-paginate: 15
-paginate_path: blog/page:num
-baseurl: /
-domain_name: 'http://rossanderson.ca'
-
-# Details for the RSS feed generator
-url:            'rossanderson.ca'
-author:         'Ross Anderson'
